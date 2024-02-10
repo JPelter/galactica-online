@@ -26,7 +26,7 @@ CREATE TABLE RESOURCE(
 
 CREATE TABLE SYSTEM_RESOURCE_STOCKPILE (
     system_id INT REFERENCES [SYSTEM](id),
-    resource_id INT REFERENCES RESOURCE(id),
+    resource_id INT REFERENCES [RESOURCE](id),
     PRIMARY KEY (system_id, resource_id),
     quantity INT DEFAULT 0 NOT NULL,
 
