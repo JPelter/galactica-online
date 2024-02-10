@@ -3,7 +3,7 @@
     
     <changeSet id="00_core_game" author="JakePelter">
         <sqlFile
-            path="scripts/00_core_game/000_agent_system_resources.sql"
+            path="scripts/00_core_game/000_agent_system_resource.sql"
             relativeToChangelogFile="true"
             endDelimiter=";"
         />
