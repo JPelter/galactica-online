@@ -3,17 +3,17 @@
     
     <changeSet id="00_core_game" author="JakePelter">
         <sqlFile
-            path="scripts/000_agent_system_resources.sql"
+            path="scripts/00_core_game/000_agent_system_resources.sql"
             relativeToChangelogFile="true"
             endDelimiter=";"
         />
         <sqlFile
-            path="scripts/001_building_type_instance.sql"
+            path="scripts/00_core_game/001_building_type_instance.sql"
             relativeToChangelogFile="true"
             endDelimiter=";"
         />
         <sqlFile
-            path="scripts/002_ship_type_instance.sql"
+            path="scripts/00_core_game/002_ship_type_instance.sql"
             relativeToChangelogFile="true"
             endDelimiter=";"
         />
