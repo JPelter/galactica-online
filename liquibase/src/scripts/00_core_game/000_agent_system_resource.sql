@@ -1,5 +1,5 @@
 CREATE TABLE AGENT (
-    id IDENTITY PRIMARY KEY,
+    id INT IDENTITY PRIMARY KEY,
     [name] NVARCHAR(100) UNIQUE,
     crypto INT DEFAULT 0 NOT NULL,
 
@@ -9,8 +9,8 @@ CREATE TABLE AGENT (
 );
 
 CREATE TABLE SYSTEM (
-    id IDENTITY PRIMARY KEY,
-    local_time = DATETIME2 NOT NULL,
+    id  INT IDENTITY PRIMARY KEY,
+    local_time DATETIME2 NOT NULL,
     [name] NVARCHAR(100) UNIQUE,
     crypto INT DEFAULT 0 NOT NULL,
     [population] INT NOT NULL,
@@ -19,14 +19,14 @@ CREATE TABLE SYSTEM (
 );
 
 CREATE TABLE RESOURCE(
-    id IDENTITY PRIMARY KEY,
+    id INT IDENTITY PRIMARY KEY,
     resource_name NVARCHAR(100) UNIQUE,
     population_demand INT DEFAULT 0
 );
 
 CREATE TABLE SYSTEM_RESOURCE_STOCKPILE (
-    system_id REFERENCES [SYSTEM](id),
-    resource_id REFERENCES RESOURCE(id),
+    system_id INT REFERENCES [SYSTEM](id),
+    resource_id INT REFERENCES RESOURCE(id),
     PRIMARY KEY (system_id, resource_id),
     quantity INT DEFAULT 0 NOT NULL,
 

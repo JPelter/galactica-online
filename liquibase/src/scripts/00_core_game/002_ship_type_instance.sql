@@ -1,5 +1,5 @@
 CREATE TABLE SHIP_TYPE (
-    id IDENTITY PRIMARY KEY,
+    id INT IDENTITY PRIMARY KEY,
     [name] NVARCHAR(100) UNIQUE,
 
     crypto_cost INT DEFAULT 0 NOT NULL,
@@ -14,27 +14,27 @@ CREATE TABLE SHIP_TYPE (
 );
 
 CREATE TABLE SHIP_RESOURCE_NET_MAINTENANCE_COST (
-    ship_type_id REFERENCES SHIP_TYPE(id),
-    resource_id REFERENCES [RESOURCE](id),
+    ship_type_id INT REFERENCES SHIP_TYPE(id),
+    resource_id INT REFERENCES [RESOURCE](id),
     PRIMARY KEY (ship_type_id, resource_id),
 
     net_cost INT NOT NULL -- NEGATIVE NUMBER IS MAINTENACE COST, POSITIVE NUMBER IS INTERPRETED AS PRODUCTION (RARE FOR SHIP PROBABLY?)!
 );
 
 CREATE TABLE SHIP (
-    id IDENTITY PRIMARY KEY,
+    id INT IDENTITY PRIMARY KEY,
     local_time = DATETIME2 NOT NULL,
-    ship_type_id REFERENCES SHIP_TYPE(id),
-    system_id REFERENCES [SYSTEM](id) NOT NULL,
+    ship_type_id INT REFERENCES SHIP_TYPE(id),
+    system_id INT REFERENCES [SYSTEM](id) NOT NULL,
     health INT NOT NULL,
 
-    warp_target_id REFERENCES [SYSTEM](id),
+    warp_target_id INT REFERENCES [SYSTEM](id),
     warp_target_progress INT
 )
 
 CREATE TABLE SHIP_CARGO (
-    ship_id REFERENCES SHIP_TYPE(id),
-    resource_id REFERENCES [RESOURCE](id),
+    ship_id INT REFERENCES SHIP_TYPE(id),
+    resource_id INT REFERENCES [RESOURCE](id),
     PRIMARY KEY (ship_id, resource_id),
 
     trade_volume INT DEFAULT 0 NOT NULL,
