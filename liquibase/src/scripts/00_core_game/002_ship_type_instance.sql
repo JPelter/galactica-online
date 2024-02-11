@@ -26,6 +26,7 @@ CREATE TABLE SHIP (
     local_time DATETIME2 NOT NULL,
     ship_type_id INT REFERENCES SHIP_TYPE(id),
     system_id INT REFERENCES [SYSTEM](id) NOT NULL,
+    owner_id INT REFERENCES AGENT(id) NOT NULL,
     health INT NOT NULL,
 
     warp_target_id INT REFERENCES [SYSTEM](id),
