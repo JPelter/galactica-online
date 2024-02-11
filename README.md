@@ -7,6 +7,8 @@ There is a Python Flask API for players to make changes and a React frontend to 
 
 ## Liquibase
 
+## Notebooks
+
 ## Python Flask API
 
 ## Python Tick Script
