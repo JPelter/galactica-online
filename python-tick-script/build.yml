@@ -20,10 +20,10 @@ jobs:
     inputs:
       command: buildAndPush
       repository: jakepelter/galactica-online-ticker
-      dockerfile: python-flask-api/src/Dockerfile
+      dockerfile: python-tick-script/src/Dockerfile
       containerRegistry: 'jakep-dockerhub'
       tags: $(Build.BuildId)
   - task: PublishBuildArtifacts@1
     inputs:
-      pathToPublish: python-flask-api/charts
+      pathToPublish: python-tick-script/charts
       artifactName: 'drop'
