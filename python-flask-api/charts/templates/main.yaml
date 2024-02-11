@@ -18,30 +18,34 @@ spec:
       - name: {{ .Release.Name }}
         image: {{ .Values.image }}:{{ .Values.imageTag }}
         ports:
-        - containerPort: {{ .Values.port }}
+        - containerPort: 9001
         env:
-        - name: LIQUIBASE_COMMAND_USERNAME
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: SQL_SERVER_USERNAME
           valueFrom:
             secretKeyRef:
-              name: galactica-online-dev-db
+              name: {{ .Values.dbSecret }}
               key: USER
-        - name: LIQUIBASE_COMMAND_PASSWORD
+        - name: SQL_SERVER_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: galactica-online-dev-db
+              name: {{ .Values.dbSecret }}
               key: PASS
         - name: SQL_SERVER_HOST
           valueFrom:
             secretKeyRef:
-              name: galactica-online-dev-db
+              name: {{ .Values.dbSecret }}
               key: HOST
         - name: SQL_SERVER_DB
           valueFrom:
             secretKeyRef:
-              name: galactica-online-dev-db
+              name: {{ .Values.dbSecret }}
               key: DB
-        - name: PYTHONUNBUFFERED
-          value: "1"
         - name: EMAIL_ACCOUNT
           valueFrom:
             secretKeyRef:
@@ -69,8 +73,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - port: {{ .Values.port }}
-    targetPort: {{ .Values.port }}
+  - port: 9001
+    targetPort: 9001
   selector:
     app: {{ .Release.Name }}
 ---
@@ -97,4 +101,4 @@ spec:
           service:
             name: {{ .Release.Name }}
             port:
-              number: {{ .Values.port }}
+              number: 9001

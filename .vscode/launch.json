@@ -12,6 +12,15 @@
             "program": "${workspaceFolder}\\python-flask-api\\src\\server.py",
             "console": "integratedTerminal",
             "justMyCode": true
+        },
+        {
+            "envFile": "${workspaceFolder}\\python-tick-script\\src\\.env",
+            "name": "Ticker",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}\\python-tick-script\\src\\main.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
         }
     ]
 }

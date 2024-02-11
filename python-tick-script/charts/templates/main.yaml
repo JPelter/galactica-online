@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      imagePullSecrets:
+      - name: {{ .Values.imagePullSecret }}
+      containers:
+      - name: {{ .Release.Name }}
+        image: docker.io/jakepelter/{{ .Values.image }}:{{ .Values.imageTag }}
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: SQL_SERVER_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.dbSecret }}
+              key: USER
+        - name: SQL_SERVER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.dbSecret }}
+              key: PASS
+        - name: SQL_SERVER_HOST
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.dbSecret }}
+              key: HOST
+        - name: SQL_SERVER_DB
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.dbSecret }}
+              key: DB

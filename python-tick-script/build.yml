@@ -7,7 +7,7 @@ trigger:
     - main
   paths:
     include:
-    - python-flask-api
+    - python-tick-script
 
 jobs:
 - job: BuildAndPush
@@ -19,7 +19,7 @@ jobs:
     displayName: BuildAndPush
     inputs:
       command: buildAndPush
-      repository: jakepelter/galactica-online-api
+      repository: jakepelter/galactica-online-ticker
       dockerfile: python-flask-api/src/Dockerfile
       containerRegistry: 'jakep-dockerhub'
       tags: $(Build.BuildId)

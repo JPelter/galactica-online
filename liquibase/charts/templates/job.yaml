@@ -19,22 +19,22 @@ spec:
           - name: LIQUIBASE_COMMAND_USERNAME
             valueFrom:
               secretKeyRef:
-                name: galactica-online-dev-db
+                name: {{ .Values.dbSecret }}
                 key: USER
           - name: LIQUIBASE_COMMAND_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: galactica-online-dev-db
+                name: {{ .Values.dbSecret }}
                 key: PASS
           - name: SQL_SERVER_HOST
             valueFrom:
               secretKeyRef:
-                name: galactica-online-dev-db
+                name: {{ .Values.dbSecret }}
                 key: HOST
           - name: SQL_SERVER_DB
             valueFrom:
               secretKeyRef:
-                name: galactica-online-dev-db
+                name: {{ .Values.dbSecret }}
                 key: DB
   completions: 1
   backoffLimit: 1

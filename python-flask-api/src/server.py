@@ -1,18 +1,14 @@
 # STL
+from datetime import datetime, timedelta, timezone
+from functools import wraps
 import logging
 from os import environ
 
 # EXT
-
 from flask import Flask, jsonify
-
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-
 from waitress import serve
-
-
-from sqlalchemy import create_engine
 from sqlalchemy.ext.automap import automap_base
 
 
@@ -20,9 +16,11 @@ from flask import Flask, session
 ############################
 #### APP AND DB OBJECTS ####
 ############################
+logging.basicConfig(level=getattr(logging, environ.get("LOGGING_LEVEL", "INFO")))
 app = Flask(__name__)
-app.logger.setLevel(logging.INFO)
 app.secret_key = environ['FLASK_SECRET']
+
+logging.info(f"Creating database connection and objects!")
 app.config['SQLALCHEMY_DATABASE_URI'] = f"mssql+pyodbc://{environ['SQL_SERVER_USERNAME']}:{environ['SQL_SERVER_PASSWORD']}@{environ['SQL_SERVER_HOST']}/{environ['SQL_SERVER_DB']}?driver=ODBC+Driver+17+for+SQL+Server"
 db = SQLAlchemy(app)
 db_Base = automap_base()
@@ -30,17 +28,18 @@ with app.app_context():
     # Reflect the database schema
     db_Base.prepare(db.engine)
 
-AGENT = db_Base.classes.agent
-BUILDING = db_Base.classes.building
-BUILDING_RESOURCE_NET_MAINTENANCE_COST = db_Base.classes.building_resource_net_maintenance_cost
-BUILDING_TYPE = db_Base.classes.building_type
-RESOURCE = db_Base.classes.resource
-SHIP = db_Base.classes.ship
-SHIP_CARGO = db_Base.classes.ship_cargo
-SHIP_RESOURCE_NET_MAINTENANCE_COST = db_Base.classes.ship_resource_net_maintenance_cost
-SHIP_TYPE = db_Base.classes.ship_type
-SYSTEM = db_Base.classes.system
-SYSTEM_RESOURCE_STOCKPILE = db_Base.classes.system_resource_stockpile
+logging.debug(f"Found these database attribute:\n{dir(db_Base.classes)}")
+AGENT = db_Base.classes.AGENT
+BUILDING = db_Base.classes.BUILDING
+BUILDING_RESOURCE_NET_MAINTENANCE_COST = db_Base.classes.BUILDING_RESOURCE_NET_MAINTENANCE_COST
+BUILDING_TYPE = db_Base.classes.BUILDING_TYPE
+RESOURCE = db_Base.classes.RESOURCE
+SHIP = db_Base.classes.SHIP
+SHIP_CARGO = db_Base.classes.SHIP_CARGO
+SHIP_RESOURCE_NET_MAINTENANCE_COST = db_Base.classes.SHIP_RESOURCE_NET_MAINTENANCE_COST
+SHIP_TYPE = db_Base.classes.SHIP_TYPE
+SYSTEM = db_Base.classes.SYSTEM
+SYSTEM_RESOURCE_STOCKPILE = db_Base.classes.SYSTEM_RESOURCE_STOCKPILE
 
 #############################
 ### LOGIN ROUTE DECORATOR ###
@@ -62,7 +61,7 @@ def login_required():
 ##################################
 ##### IMPORTED SERVER ROUTES #####
 ##################################
-from auth_routes import *
+#from auth_routes import *
 
 ########################
 ###### STARTUP!!! ######
@@ -78,6 +77,5 @@ if __name__ == '__main__':
         app.logger.info(f"Authcheck by: {session['email']}|{session['name']}")
         return jsonify({"message":"Authenticated!", "agent":{session['name']}, "email":session['email'], "session_start":session['creation_time']})
 
-    db.init_app(app)
     app.logger.info("Starting server!")
     serve(app, host='0.0.0.0', port=9001)
