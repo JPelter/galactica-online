@@ -11,9 +11,6 @@ ALTER USER galactica_dev WITH DEFAULT_SCHEMA = galactica_dev;
 -- Grant CREATE TABLE permission
 GRANT CREATE TABLE TO galactica_dev;
 
--- Grant ALTER permission for schema changes
-GRANT ALTER ON SCHEMA::galactica_dev TO galactica_dev;
-
 --PROD INIT
 CREATE LOGIN galactica WITH password='';
 
@@ -26,9 +23,6 @@ ALTER USER galactica WITH DEFAULT_SCHEMA = galactica;
 
 -- Grant CREATE TABLE permission
 GRANT CREATE TABLE TO galactica;
-
--- Grant ALTER permission for schema changes
-GRANT ALTER ON SCHEMA::galactica TO galactica;
 
 -- HELPQUL QUERIES!
 SELECT * FROM galactica_dev.DATABASECHANGELOG
