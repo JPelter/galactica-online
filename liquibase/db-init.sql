@@ -29,3 +29,10 @@ GRANT CREATE TABLE TO galactica;
 
 -- Grant ALTER permission for schema changes
 GRANT ALTER ON SCHEMA::galactica TO galactica;
+
+
+-- HELPQUL QUERIES!
+SELECT * FROM galactica_dev.DATABASECHANGELOG
+SELECT * FROM galactica_dev.AGENT
+INSERT INTO galactica_dev.AGENT ([name], crypto, controller_email) VALUES ('Publius', 0, 'jake.pelter@gmail.com')
+INSERT INTO galactica_dev.AGENT ([name], crypto, controller_email) VALUES ('Brutus', 0, 'jake.pelter@gmail.com')

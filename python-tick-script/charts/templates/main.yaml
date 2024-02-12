@@ -16,7 +16,7 @@ spec:
       - name: {{ .Values.imagePullSecret }}
       containers:
       - name: {{ .Release.Name }}
-        image: docker.io/jakepelter/{{ .Values.image }}:{{ .Values.imageTag }}
+        image: {{ .Values.image }}:{{ .Values.imageTag }}
         env:
         - name: PYTHONUNBUFFERED
           value: "1"

@@ -5,7 +5,7 @@ CREATE TABLE AGENT (
 
     controller_email NVARCHAR(100),
     last_login DATETIME2,
-    current_login_token CHAR(6)
+    login_token CHAR(6)
 );
 
 CREATE TABLE SYSTEM (

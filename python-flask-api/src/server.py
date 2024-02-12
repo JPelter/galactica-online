@@ -20,7 +20,6 @@ logging.basicConfig(level=getattr(logging, environ.get("LOGGING_LEVEL", "INFO"))
 app = Flask(__name__)
 app.secret_key = environ['FLASK_SECRET']
 
-logging.info(f"Creating database connection and objects!")
 app.config['SQLALCHEMY_DATABASE_URI'] = f"mssql+pyodbc://{environ['SQL_SERVER_USERNAME']}:{environ['SQL_SERVER_PASSWORD']}@{environ['SQL_SERVER_HOST']}/{environ['SQL_SERVER_DB']}?driver=ODBC+Driver+17+for+SQL+Server"
 db = SQLAlchemy(app)
 db_Base = automap_base()
@@ -28,7 +27,7 @@ with app.app_context():
     # Reflect the database schema
     db_Base.prepare(db.engine)
 
-logging.debug(f"Found these database attribute:\n{dir(db_Base.classes)}")
+#logging.debug(f"Found these database attribute:\n{dir(db_Base.classes)}")
 AGENT = db_Base.classes.AGENT
 BUILDING = db_Base.classes.BUILDING
 BUILDING_RESOURCE_NET_MAINTENANCE_COST = db_Base.classes.BUILDING_RESOURCE_NET_MAINTENANCE_COST
@@ -50,8 +49,10 @@ def login_required():
         def wrapper(*args, **kwargs):
             app.logger.debug(f"login_required API call")
             if session.get('name'):
-                req_acct = db.session.query(AGENT).get(session['name'])
+                req_acct = db.session.query(AGENT).get(session['id'])
                 if req_acct:
+                    req_acct.last_login = datetime.now(timezone.utc)
+                    db.session.commit()
                     return function_to_protect(*args, **kwargs)
             else:
                 return jsonify({"message":"Try logging in!"}), 401
@@ -61,7 +62,7 @@ def login_required():
 ##################################
 ##### IMPORTED SERVER ROUTES #####
 ##################################
-#from auth_routes import *
+from auth_routes import *
 
 ########################
 ###### STARTUP!!! ######
@@ -74,8 +75,8 @@ if __name__ == '__main__':
     @app.route("/api/authcheck", methods=['GET'])
     @login_required()
     def authcheck_endpoint():
-        app.logger.info(f"Authcheck by: {session['email']}|{session['name']}")
-        return jsonify({"message":"Authenticated!", "agent":{session['name']}, "email":session['email'], "session_start":session['creation_time']})
+        logging.info(f"Authcheck by: {session['controller_email']}|{session['name']}")
+        return jsonify({"message":"Authenticated!", "agent":session['name'], "email":session['controller_email'], "session_start":session['creation_time']})
 
-    app.logger.info("Starting server!")
+    logging.info("Starting server!")
     serve(app, host='0.0.0.0', port=9001)
