@@ -3,3 +3,5 @@ imageTag:
 imagePullSecret: jakep-dockerhub
 
 dbSecret: galactica-online-dev-db
+
+tickLength: 300

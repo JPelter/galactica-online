@@ -44,4 +44,4 @@ if __name__ == '__main__':
         agents = session.query(AGENT).all()
         if agents:
             logging.info(f"Found {len(agents)} agents!")
-        sleep(30)
+        sleep(environ['TICK_LENGTH'])

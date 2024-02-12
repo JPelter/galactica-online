@@ -30,7 +30,6 @@ GRANT CREATE TABLE TO galactica;
 -- Grant ALTER permission for schema changes
 GRANT ALTER ON SCHEMA::galactica TO galactica;
 
-
 -- HELPQUL QUERIES!
 SELECT * FROM galactica_dev.DATABASECHANGELOG
 SELECT * FROM galactica_dev.AGENT

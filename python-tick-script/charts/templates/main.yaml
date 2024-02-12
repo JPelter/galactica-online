@@ -24,6 +24,8 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: TICK_LENGTH
+          value: {{ .Values.tickLength | quote }}
         - name: SQL_SERVER_USERNAME
           valueFrom:
             secretKeyRef:
