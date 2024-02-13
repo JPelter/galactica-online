@@ -1,0 +1,7 @@
+image: docker.io/jakepelter/galactica-online-ticker
+imageTag:
+imagePullSecret: jakep-dockerhub
+
+dbSecret: galactica-online-db
+
+tickLength: 300

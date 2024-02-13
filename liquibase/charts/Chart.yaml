@@ -1,0 +1,3 @@
+apiVersion: v2
+name: galactica-online-liquibase
+version: 1.0.0

@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ printf "%s-%s" .Release.Name (now | date "20060102-150405") | trunc 63 | quote }}
+spec:
+  template:
+    metadata:
+      name: {{ printf "%s-%s" .Release.Name (now | date "20060102-150405") | trunc 63 | quote }}
+    spec:
+      imagePullSecrets:
+      - name: jakep-dockerhub
+      restartPolicy: Never
+      containers:
+        - name: {{ .Release.Name }}
+          image: docker.io/jakepelter/galactica-online-liquibase:{{ .Values.imageTag }}
+          command: ["liquibase", "update", "--changeLogFile=changelog.xml", "--url=jdbc:sqlserver://$(SQL_SERVER_HOST):1433;databaseName=$(SQL_SERVER_DB);encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"]
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: LIQUIBASE_COMMAND_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.dbSecret }}
+                key: USER
+          - name: LIQUIBASE_COMMAND_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.dbSecret }}
+                key: PASS
+          - name: SQL_SERVER_HOST
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.dbSecret }}
+                key: HOST
+          - name: SQL_SERVER_DB
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.dbSecret }}
+                key: DB
+  completions: 1
+  backoffLimit: 1

@@ -1,0 +1,7 @@
+image: docker.io/jakepelter/galactica-online-website
+imageTag:
+imagePullSecret: jakep-dockerhub
+
+port: 80
+rpm: 5
+hostname: galactica-dev.pelter.net

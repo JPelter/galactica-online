@@ -1,0 +1,13 @@
+image: docker.io/jakepelter/galactica-online-api
+imageTag:
+imagePullSecret: jakep-dockerhub
+
+dbSecret: galactica-online-db
+flaskSecret: galactica-online-flask
+
+port: 9001
+rpm: 100
+hostname: galactica.pelter.net
+
+smtpRelay: smtp-relay.gmail.com
+senderEmail: noreply@galactica.pelter.net

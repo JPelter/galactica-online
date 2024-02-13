@@ -1,0 +1,3 @@
+apiVersion: v2
+name: galactica-online-api
+version: 1.0.0
