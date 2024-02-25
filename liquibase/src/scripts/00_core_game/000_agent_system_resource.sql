@@ -33,3 +33,14 @@ CREATE TABLE SYSTEM_RESOURCE_STOCKPILE (
     trade_volume INT DEFAULT 0 NOT NULL,
     trade_value INT DEFAULT 0 NOT NULL
 );
+
+CREATE TABLE AGENT_SYSTEM_RESOURCE_STOCKPILE (
+    agent_id INT REFERENCES [AGENT](id),
+    system_id INT REFERENCES [SYSTEM](id),
+    resource_id INT REFERENCES [RESOURCE](id),
+    PRIMARY KEY (system_id, resource_id),
+    quantity INT DEFAULT 0 NOT NULL,
+
+    trade_volume INT DEFAULT 0 NOT NULL,
+    trade_value INT DEFAULT 0 NOT NULL
+);
